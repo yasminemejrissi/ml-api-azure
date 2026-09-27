@@ -8,16 +8,17 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from ucimlrepo import fetch_ucirepo
 
-# 1. Charger les données (Wine Quality, UCI id=186)
-wine = fetch_ucirepo(id=186)
-X = wine.data.features
-y = (wine.data.targets["quality"] >= 7).astype(int)  # 1 = bon vin
+# 1. Charger les données (Banknote Authentication, UCI id=267)
+banknote = fetch_ucirepo(id=267)
+X = banknote.data.features
+y = banknote.data.targets.iloc[:, 0]  # l'étiquette : 0 ou 1
 
 print("Taille du dataset :", X.shape)
 print("Colonnes :", list(X.columns))
-print(f"Part de bons vins : {y.mean():.1%}")
+print("Repartition des classes :")
+print(y.value_counts())
 
-# 2. Séparer train / test (stratify garde la même proportion de bons vins)
+# 2. Séparer train / test
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -25,7 +26,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # 3. Pipeline = prétraitement + modèle dans un seul objet
 pipeline = Pipeline([
     ("scaler", StandardScaler()),
-    ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
+    ("model", LogisticRegression(max_iter=1000)),
 ])
 pipeline.fit(X_train, y_train)
 
@@ -39,4 +40,4 @@ print("Modele sauvegarde dans model/model.joblib")
 
 # 6. Vérifier qu'on peut le recharger et prédire
 reloaded = joblib.load("model/model.joblib")
-print("Test rechargement, prediction du 1er vin :", reloaded.predict(X_test.iloc[[0]]))
+print("Test rechargement, prediction du 1er billet :", reloaded.predict(X_test.iloc[[0]]))
