@@ -1,4 +1,4 @@
-\# API de détection de faux billets (Scikit-learn, FastAPI, Docker, Azure)
+@'\# API de détection de faux billets (Scikit-learn, FastAPI, Docker, Azure)
 
 
 
@@ -146,7 +146,7 @@ L'API n'est plus en ligne, mais voici ce que ça donnait :
 
 
 
-!\[Prédiction d'un faux billet](docs/docs\_reponse.png)
+!\[Prédiction d'un faux billet](docs/docs\_reponse.png)'@ |Set-Content -Encoding utf8 README.md
 
 
 
